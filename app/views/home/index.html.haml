@@ -70,7 +70,7 @@
         .container
           .row.section-header
             .span12.events-index-header
-              %h1 Events in San Francisco
+              %h1 Featured Events in San Francisco
         .section.events-section
           .container
             .row.events-row-content
@@ -89,124 +89,23 @@
                   %p Pick an event to attend!
                   -if all_events.length == 0
                     %p No events! Sign up to stay up to date on future ones!
-                .events-index-navigation
-                  %ul
-                    %li
-                      %a{:href => '#live'} Live Events
-                    %li
-                      %a{:href => '#new'} New Events
-                    %li
-                      %a{:href => '#ongoing'} Ongoing Events
-        .container
-          .row.section-header
-            .span12.events-index-section-title#live
-              %h1 Live Events
-        .section.events-section
-          .container
-            .row.events-row-content
-              .span2
-              .span8.events-index-content
-                -if current_user
-                  -if current_user.chef == true
-                    %p Live events are currently selling tickets! Look around and see what's happenin'.
-                  - if current_user.chef == false
-                    %p Live events are currently selling tickets! Buy yours today before they sell out.
-                -else
-                  %p Live events are currently selling tickets! Buy yours today before they sell out.
         .container
           -potential_live_events=non_upcoming_events.dup
           -while potential_live_events.length > 1
             -event = potential_live_events.pop
-            -if !event.happened?
-              .row.events-row
-                .span6.single-event
-                  =render "events/singleevent", :event => event
-                -event = potential_live_events.pop
-                -if !event.happened?
-                  .span6.single-event
-                    =render "events/singleevent", :event => event
+            .row.events-row
+              .span6.single-event
+                =render "events/singleevent", :event => event
+              -event = potential_live_events.pop
+              .span6.single-event
+                =render "events/singleevent", :event => event
           -if potential_live_events.length == 1
             -event = potential_live_events.pop
-            -if !event.happened?
-              .row.events-row
-                .span6.single-event
-                  =render "events/singleevent", :event => event
-                .span6
-
-        .container
-          .row.section-header
-            .span12.events-index-section-title#new
-              %h1 New Events
-        .section.events-section
-          .container
-            .row.events-row-content
-              .span2
-              .span8.events-index-content
-                -if current_user
-                  -if current_user.chef == true
-                    %p New events are scheduled but not yet open for ticket sales. Follow (click on the heart) to get notified as soon as ticket sales begin! 
-                    -# what would you make this language, Neeharika?
-                  - if current_user.chef == false
-                    %p New events are scheduled but not yet open for ticket sales. Follow (click on the heart) to get notified as soon as ticket sales begin! 
-                -else
-                  %p New events are scheduled but not yet open for ticket sales. Follow (click on the heart) to get notified as soon as ticket sales begin! 
-        .container
-          -while upcoming_events.length > 1
-            -event = upcoming_events.pop
-            -if event.approved? && event.upcoming?
-              .row.events-row
-                .span6.single-event
-                  =render "events/singleevent", :event => event
-                -event = upcoming_events.pop
-                -if event.approved? && event.upcoming?
-                  .span6.single-event
-                    =render "events/singleevent", :event => event
-          -if upcoming_events.length == 1
-            -event = upcoming_events.pop
-            -if event.approved? && event.upcoming?
-              .row.events-row
-                .span6.single-event
-                  =render "events/singleevent", :event => event
-                .span6
-
-        -potential_past_events = non_upcoming_events.dup
-        .container
-          .row.section-header
-            .span12.events-index-section-title#ongoing
-              %h1 Ongoing Events
-        .section.events-section
-          .container
-            .row.events-row-content
-              .span2
-              .span8.events-index-content
-                -if current_user
-                  -if current_user.chef == true
-                    %p Ongoing events have happened one or more times and have been successes! Check out what's trending!
-                  - if current_user.chef == false
-                    %p Ongoing events have happened one or more times and have been successes! Put your name down for the next one -- the more names on the list, the sooner the event will happen.
-                -else
-                  %p Ongoing events have happened one or more times and have been successes! Put your name down for the next one -- the more names on the list, the sooner the event will happen.
-        .container
-          -while potential_past_events.length > 1
-            -event = potential_past_events.pop
-            -if event.happened?
-              .row.events-row
-                .span6.single-event
-                  =render "events/singleevent", :event => event
-                -event = potential_past_events.pop
-                -if event.happened?
-                  .span6.single-event
-                    =render "events/singleevent", :event => event
-          -if potential_past_events.length == 1
-            -event = potential_past_events.pop
-            -if event.happened?
-              .row.events-row
-                .span6.single-event
-                  =render "events/singleevent", :event => event
-                .span6
-
-                
-        
+            .row.events-row
+              .span6.single-event
+                =render "events/singleevent", :event => event
+              .span6
+       
         
         .section.events-section
           .container
@@ -218,87 +117,8 @@
                   -else
                     %p Don’t see your favorite business? <a href = "/campaigns/new">Suggest a business</a> or <a href = "/campaigns">vote up a suggested business</a> to get them to host events on Simmr!
                 -else
-                  %p Don’t see your favorite business? <a href = "/campaigns/new">Suggest a business</a> or <a href = "/campaigns">vote up a suggested business</a> to get them to host events on Simmr!
+                  %p <a href = "#sign_up_foodie", data-toggle = "modal"> Sign up </a> or <a href = "#sign_in", data-toggle = "modal">sign in</a> to see more and book seats!
       %a.back-to-top{:href => '#top'}Back to Top
-    -#.container
-      .row.section-header
-        .span12#how-it-works
-          %h1 How It Works
-          -#
-            .logo
-              =image_tag "logo_final.png"
-          %ul.user-type
-            %li{'ng-click' => 'type = "foodie"'}
-              %a{:href => '#how'}
-                .foodie
-                  =image_tag "Foodie-Default-Profile-Image.png"
-                %p I'm a Foodie
-
-            %li{'ng-click' => 'type="business"'}
-              %a{:href => '#how-chef'}
-                .chef
-                  =image_tag "Chef-Default-Profile-Image.png"
-                %p I'm a Business
-              
-    -#.section
-      .container
-        .row
-          .span2
-          .span8.how-it-works#how{'ng-show' => 'type == "foodie"'}
-            %h1.title For Foodies
-            .row.how-it-works-event-infographic
-              .span4.offset1.step.browse
-                .step-description
-                  %h1 1. browse
-                  %p We bring you food-related events and experiences that are like nothing you've experienced before.
-            .row.how-it-works-event-infographic
-              .span4.offset3.step.register
-                .step-description
-                  %h1 2. register
-                  %p See something you like? Book it! But wait - the event doesn't happen until the minimum number of tickets is sold. Help make this happen by inviting your favorite people!
-            .row.how-it-works-event-infographic
-              .span4.offset1.step.tilt
-                .step-description
-                  %h1 3. enjoy
-                  %p Woohoo, party time! All you have to do is show up and have a blast.
-            .row.how-it-works-event-infographic
-              .span4.offset2.step.return
-                .step-description
-                  %h1 4. return
-                  %p Did you have an awesome time? Businesses depend on loyal customers like you who return and help spread the word. We make sure your support is rewarded with further involvement and unique experiences. 
-            .row.how-it-works-event-infographic
-              .span4.offset3.step.get-started
-                .step-description
-                  -if user_signed_in?
-                    %a{:href => "/events", :"data-toggle" =>"modal"} get started
-                  -else
-                    %a{:href => "#sign_up_foodie", :"data-toggle" =>"modal"} get started
-          
-
-          .span8.how-it-works#how-chef{'ng-show' => 'type == "business"'}
-            %h1.title For Businesses
-            .row.how-it-works-event-infographic
-              .span4.step.attract
-                .step-description
-                  %h1 1. attract
-                  %p It's hard to find and attract high quality, long-term customers. Even today, most small businesses do so with discounts. We help you find quality customers who are interested in building a long-term relationship with you.
-            .row.how-it-works-event-infographic
-              .span4.offset4.step.engage
-                .step-description
-                  %h1 2. engage
-                  %p We help you engage your customers to become more loyal by helping you track, communicate with, and reward them in unique, thoughtful ways. 
-            .row.how-it-works-event-infographic
-              .span4.offset1.step.club
-                .step-description
-                  %h1 3. start a club
-                  %p Your biggest fans want a deeper relationship and what better way than as a member in your club? You get regular, predictable cash flow and they get the chance to be "VIP" at a business they love! Don't worry, we help make managing this a breeze.
-            .row.how-it-works-event-infographic
-              .span4.offset3.step.get-started
-                .step-description
-                  -if user_signed_in?
-                    %a{:href => "/events", :"data-toggle" =>"modal"} get started
-                  -else
-                    %a{:href => "#sign_up_business", :"data-toggle" =>"modal"} get started
 
   = render 'layouts/footer'
   = render 'shared/signup_modals'
